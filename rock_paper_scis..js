@@ -1,5 +1,5 @@
 // an idea to make mini game with images 
-
+// dnsdjs
 // first we should check if user provided correct data
 
 const getUserChoice = userInput => {
