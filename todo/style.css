@@ -1,0 +1,13 @@
+* {
+    box-sizing: border-box;
+  }
+body{
+    display: grid;
+    justify-content: center;
+}
+.tasks{
+    margin: 0 auto;
+}
+.my_list{
+    background:linear-gradient(white, grey);
+}
