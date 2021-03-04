@@ -10,9 +10,8 @@ addNewTask.addEventListener('click', function(){
     taskText.value = '';
     addNew.addEventListener('click', function(){
         addNew.style.textDecoration = 'line-through'
-        addNew.style.backgroundColor = 'red'
     })
-    addNew.addEventListener('mouseover', function(){
+    addNew.addEventListener('dblclick', function(){
         addNew.style.backgroundColor = ''
     })
 })
