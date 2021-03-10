@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Aimation frame</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            html {
+                height: 100%;
+                background: white;
+            }
+            body {
+                height: inherit;
+                background: red;
+                align-items: center;
+                display: flex;
+                justify-content: center;
+                margin: 0;
+            }
+            div {
+                display: inline-block;
+                font-size: 10rem;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            ↻ 
+        </div>
+        <script>
+            const spinner = document.querySelector('div');
+            let rotateCount = 0;
+            let startTime = null;
+            let rAF;
+            let rotating = false
+    
+            function draw(timestamp){
+                if(!startTime){
+                    startTime = timestamp;
+                }
+                rotateCount = (timestamp - startTime)/3;
+
+                if (rotateCount > 359){
+                    rotateCount %= 360;
+                }
+                spinner.style.transform = `rotate(${rotateCount}deg)`;
+                
+                rAF = requestAnimationFrame(draw);
+                
+            }
+
+            document.body.addEventListener('click', ()=>{
+                if(rotating){
+                    cancelAnimationFrame(rAF);
+                    rotating = false
+                }else{
+                    draw();
+                    rotating = true;
+                }
+            })
+
+         
+            
+        </script>
+    </body>
+</html>
