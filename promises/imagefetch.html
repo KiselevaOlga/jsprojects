@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Fetching image</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    </head>
+    <body>
+        <script>
+            console.log('First line of the code')
+            let image;
+
+            fetch('./all_together.jpg').then((response) => {
+                console.log('Image downloaded, second log is working');
+                return response.blob();
+            }).then((myBlob)=>{
+                let objectURL = URL.createObjectURL(myBlob);
+                image = document.createElement('img');
+                image.src = objectURL;
+                document.body.appendChild(image)
+            }).then(()=>console.log('Last line of the code : all done'+ image.src))
+            .catch(err=>{console.log(`${err.message} has appeared in the browser`)})
+
+        </script>
+    </body>
+</html>

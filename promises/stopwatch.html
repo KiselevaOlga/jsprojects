@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Stopwatch</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <button style="background: green" onclick='myFunction()'>Start</button>
+        <button style='background: red' onclick='stopStop()'>Stop</button>
+        <button style='background: yellow' onclick='resetTime()'>Reset</button>
+        <p>Time: <span id='clock2'>0</span></p>
+        <script>
+            let start = 0;
+            let myVar;
+            function myFunction() {
+                start = Date.now();
+                myVar = setInterval(displayTime, 1000);
+            }
+            function stopStop(){
+                myVar = clearInterval(myVar);
+            }
+            function resetTime(){
+                document.getElementById('clock2').innerHTML = '0';
+            }
+            function displayTime(){
+                let timee= Math.floor((Date.now() - start)/1000);
+                document.getElementById('clock2').innerHTML = timee;
+            }
+
+        </script>
+    </body>
+</html>
