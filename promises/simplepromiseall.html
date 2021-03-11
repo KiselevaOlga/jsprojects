@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Simple promise all example</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <script>
+            // let first = fetch('./heart.png');
+            // let second = fetch('./amsterdam.png');
+            // let third = fetch('./sign.png');
+
+            function fetchAndDecode(url, type){
+                return fetch(url).then(response=>{
+                    if (!response.ok){
+                        throw new Error('HTTP Error! Status: '+ response.status)
+                    }else{
+                        if(type==='blob'){
+                            return response.blob()
+                        } else if(type==='text'){
+                            return response.text()
+                        }
+                    }
+                })
+                .catch(err=>{
+                    console.log('There has been a problem with your fetching'+err.message)
+                })
+                .finally(()=>{
+                    console.log(`fetch attempt for ${url} finished`)
+                })
+            }
+            let first = fetchAndDecode('./heart.png', 'blob');
+            let second = fetchAndDecode('./amsterdam.png', 'blob');
+            let third = fetchAndDecode('./sign.png', 'blob');
+            let fourth = fetchAndDecode('./description.txt', 'text');
+
+            Promise.all([first, second, third, fourth]).then(values=>{
+                // can replace with for loop
+                console.log(values);
+
+                let obj1 = URL.createObjectURL(values[0]);
+                let obj2 = URL.createObjectURL(values[1]);
+                let obj3 = URL.createObjectURL(values[2]);
+                let textObj = values[3];
+
+                let image1 = document.createElement('img');
+                let image2 = document.createElement('img');
+                let image3 = document.createElement('img');
+                let textP = document.createElement('p');
+
+                image1.src = obj1;
+                image2.src = obj2;
+                image3.src = obj3;
+                textP.textContent = textObj;
+
+                document.body.appendChild(image1);
+                document.body.appendChild(image2);
+                document.body.appendChild(image3);
+                document.body.appendChild(textP);
+
+            })
+        </script>
+    </body>
+</html>

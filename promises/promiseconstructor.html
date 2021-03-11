@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Simple promise constructor</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <script>
+            // let timeOutPromise = new Promise((resolve, reject)=>{
+            //     setTimeout(()=>{
+            //         resolve('Success')
+            //     }, 2000);
+            // });
+            
+            function timeOutPromise(message, interval){
+                return new Promise((resolve, reject)=>{
+                    if (message === '' || typeof message !== 'string'){
+                        reject('Message is empty or not a string')
+                    }else if (interval < 0 || typeof interval !== 'number'){
+                        reject('Interval is less than 0 or not a number')
+                    }else{
+                        setTimeout(()=>{
+                            resolve(message)
+                        }, interval)
+                    }
+                })
+            }
+
+            timeOutPromise('Hello there!', 2000)
+            .then(message=>{
+                alert(message)
+            })
+            .catch(err=>{
+                console.log("Error: "+err)
+            })
+        </script>
+    </body>
+</html>

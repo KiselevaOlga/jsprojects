@@ -7,35 +7,43 @@
     </head>
     <body>
         <script>
-            let promise = fetch('./heart.png');
-            let promise2 = promise.then(response=>{
-                if(!response.ok){
-                    throw new Error('HTTP error status: '+ response.status)
-                }else{
-                    return response.blob()
-                }
-            })
-
-            let promise3 = promise2.then(myBlob => {
-                let objectURL = URL.createObjectURL(myBlob);
-                let image = document.createElement('img');
-                image.src = objectURL;
-                document.body.appendChild(image);
-            })
-
-            // let promise2 = promise.then(response => {
-            //     if (!response.ok) {
-            //         throw new Error(`HTTP error! status: ${response.status}`);
-            //     } else {
-            //         return response.blob();
+            // let promise = fetch('./heart.png');
+            // let promise2 = promise.then(response=>{
+            //     if(!response.ok){
+            //         throw new Error('HTTP error status: '+ response.status)
+            //     }else{
+            //         return response.blob()
             //     }
-            // });
+            // })
+
             // let promise3 = promise2.then(myBlob => {
             //     let objectURL = URL.createObjectURL(myBlob);
             //     let image = document.createElement('img');
             //     image.src = objectURL;
             //     document.body.appendChild(image);
             // })
+
+            // let errorCases = promise3.catch(err=>{
+            //     console.log(`There has been problem with your fetch: ${err.message}`)
+            // })
+
+            fetch('./heart.png')
+            .then(response=>{
+                if(!response.ok){
+                    throw new Error('HTTP error status: '+ response.status)
+                }else{
+                    return response.blob()
+                }
+            })
+            .then(myBlob => {
+                let objectURL = URL.createObjectURL(myBlob);
+                let image = document.createElement('img');
+                image.src = objectURL;
+                document.body.appendeChild(image);
+            })
+            .catch(err=>{
+                console.log(`There has been problem with your fetch: ${err.message}`)
+            })
         </script>
     </body>
 </html>

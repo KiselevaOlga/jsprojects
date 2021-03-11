@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Async await promise. Example: phone</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <script>
+        let isMomHappy = true;
+
+        const willGetNewPhone = new Promise(
+            function (resolve, reject){
+                if(isMomHappy){
+                    let phone = {
+                        brand: 'Samsung', 
+                        color: 'black',
+                    };
+                    resolve(phone);
+                }else{
+                    let reason = new Error('Mom is not happy');
+                    reject(reason);
+                }
+            }
+        );        
+         // const showOff = function(phone){
+        //     return new Promise(
+        //         function(resolve, reject){
+        //             let message = `I have got new phone ${phone.brand} ${phone.color} color`
+        //             resolve(message);
+        //     })
+        // }
+        
+        // const showOff = function(phone){
+        //     let message = `I have got new phone ${phone.brand} ${phone.color} color`
+        //     return Promise.resolve(message);
+        // }
+
+        async function showOff(phone){
+            let message = `I have got new phone ${phone.brand} ${phone.color} color`
+            return Promise.resolve(message);
+        }
+
+        // const askMomAboutPhone = function(){
+        //     console.log('Before asking mom')
+        //     willGetNewPhone
+        //     .then(showOff)
+        //     .then(function(fullfilled){
+        //         console.log(fullfilled);
+        //     })
+        //     .catch(err=>{
+        //         console.log(err.message)
+        //     })
+        //     console.log('After asking mom')
+        // }
+
+        async function askMomAboutPhone(){
+            try {
+                console.log('Before asking mom');
+                let phone = await willGetNewPhone;
+                let message = await showOff(phone);
+
+                console.log(message);
+                console.log('After asking mom')
+            }
+            catch (error){
+                console.log(error.message)
+            }
+        }
+
+        // askMomAboutPhone();
+       (async()=>{
+          await askMomAboutPhone() 
+       })();
+        
+        </script>
+
+
+    </body>
+</html>
