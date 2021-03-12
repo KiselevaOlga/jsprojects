@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Simple example of WEB API : audio</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            audio {
+                color: red
+            }
+            button .paused{
+                width: 70px;
+            }
+            input .volume{
+                width: 150px;
+            }
+        </style>
+    </head>
+    <body>
+        <audio src='./TheBeatles.mp3' type="audio/mpeg">2ne1</audio>
+        <button class='paused'>Play</button>
+        <input type="range" class='volume' min='0' max='1' step='0.01' value="1">
+        <script>
+            // create AudioContet which manipulate the track
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            const audioCtx = new AudioContext();
+
+            // create constnts which reference our html elements(audio, button, input)
+            const audioElement = document.querySelector('audio');
+            const playBtn = document.querySelector('button');
+            const volumeSlider = document.querySelector('.volume');
+            // create an Audio node which will be the source our audio(audio will be played from)
+            const audioSource = audioCtx.createMediaElementSource(audioElement);
+
+            // create toggle button with event handlers for play button
+            playBtn.addEventListener('click', function() {
+                // check first if audio in suspended state (autoplay policy)
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume;
+                }
+                // if track is stopped, then play it
+                if (this.getAttribute('class') === 'paused') {
+                    audioElement.play();
+                    this.setAttribute('class', 'playing');
+                    this.textContent = 'Pause';
+                    // if track is currently playing, then stop it
+                } else if (this.getAttribute('class') === 'playing') {
+                    audioElement.pause();
+                    this.setAttribute('class', 'paused');
+                    this.textContent = 'Play';
+                }
+            })
+
+            // handle when track is finished playing
+            audioElement.addEventListener('ended', function() {
+                playBtn.setAttribute('class', 'paused');
+                playBtn.textContent = 'Play';
+            })
+
+            // create function which handles the volume slider 
+            const gainNode = audioCtx.createGain();
+            volumeSlider.addEventListener('input', function(){
+                gainNode.gain.value = this.value;
+            })
+
+            // next step is to connect different nodes  in the audio graph up,which is done by AudioGraph.connect
+            // this method available on every note type
+            audioSource.connect(gainNode).connect(audioCtx.destination);
+        </script>
+    </body>
+</html>
