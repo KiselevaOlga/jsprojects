@@ -1,0 +1,53 @@
+html{
+    font: sans-serif;
+    font-size: 20px;
+}
+header {
+    padding: 10px;
+    background: rgb(216, 121, 121);
+    text-align: center;
+}
+main{
+    background: rgb(216, 121, 121);
+    text-align: center;
+    padding: 15px 20px;
+    min-height: 100vh;
+    letter-spacing: 1.5px;
+}
+#inputField {
+    margin: 0 auto;
+    border-radius: 6px;
+    height: 35px;
+    width: 200px;
+    display: block;
+    overflow: auto;
+    margin-bottom: 10px;
+}
+#inputField:hover{
+    border: 3px solid rgb(107, 6, 6);
+}
+#submit{
+    margin-top: 10px;
+    width: 150px;
+    height: 25px;
+    letter-spacing: 1px;
+    transition: transform 0.7s;
+    border-radius: 5px;
+    background:rgb(107, 6, 6);
+    color: white;
+}
+#submit:hover{
+    transform: scale(1.2);
+    color: white;
+    background: rgb(224, 13, 13);  
+}
+#responseField{
+    min-height: 50vh;
+    border: 2px solid black;
+    margin: 10px 25px;
+    border-radius: 6px;
+    background:rgb(202, 83, 83);
+    text-align: center;
+    padding-left: 30px;
+    padding-right: 30px;
+}

@@ -1,15 +1,13 @@
-// enter your api key 
-
 const apiKey = ""; // enter your key from app.rebrandly.com
-// main url to take data from
+// url to extract information from
 const url = 'https://api.rebrandly.com/v1/links';
 
-// initialize variables to work with
+// initialize HTML elements to work with
 const inputField = document.querySelector('#input');
 const shortenBtn = document.querySelector('#shorten');
 const responseField = document.getElementById('responseField');
 
-// write functions which outputs in right format
+// function renderResponse outputs in right format
 const renderResponse = (result) => {
     if (result.errors){
         responseField.innerHTML = '<p>Sorry, could not format your URL</p><p>Try again</p>';
@@ -18,7 +16,7 @@ const renderResponse = (result) => {
     }
 }
 
-// write a function which takes url passed to input field and outputs short url
+// function shirtenUrl takes url passed to input field and outputs short url
 const shortenUrl = ()=>{
     const longUrl = inputField.value;
     const data = JSON.stringify({destination: longUrl})
@@ -43,7 +41,7 @@ const shortenUrl = ()=>{
     })
 }
 
-// write a function which clears a page and call AJAX functions
+// a function which clears a page and call AJAX functions
 const displayShortUrl = (event) => {
     event.preventDefault();
     while (responseField.firstChild){
