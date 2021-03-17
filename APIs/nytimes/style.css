@@ -1,0 +1,37 @@
+html{
+    font: sans-serif;
+}
+h1{
+    text-align: center;
+}
+.wrapper{
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+}
+.controls, .results {
+    display: 1;
+    padding: 10px;
+}
+nav{
+    margin-bottom: 50px;
+}
+.prev{
+    float: left;
+}
+.next{
+    float: right;
+}
+#search, #dateStart, #dateEnd{
+    border-radius: 4px;
+    border-color: green;
+}
+.clearfix {
+    clear: both;
+}
+article {
+    border: 1px solid black;
+}
+img, h3{
+    margin: 0 auto;
+}

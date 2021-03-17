@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Example of using third parties APIs: mapquest</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script>
+        <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css"/>
+        <style>
+            #map {
+                min-width: 100px;
+                height: 600px;
+                margin: 0 auto;
+            }
+            h1 {
+                text-align: center;
+            }
+        </style>
+        <script>
+            var L;
+
+            window.onload = function(){
+                L.mapquest.key='your key';
+
+                var map = L.mapquest.map('map', {
+                    center: [51.509865, -0.118092],
+                    layers: L.mapquest.tileLayer('hybrid'), // could be also: satellite, dark, light and map
+                    zoom: 12
+                })
+                
+                map.addControl(L.mapquest.control()) // can also add searchControl
+
+                L.marker([51.509865, -0.118092], {
+                    icon: L.mapquest.icons.marker({
+                        primaryColor: '#22407F',
+                        secondaryColor: '#3B5998',
+                        shadow: true,
+                        size: 'md',
+                        symbol: 'A'
+                    })
+                })
+                .bindPopup('This is London!')
+                .addTo(map);
+
+                let searchControl = L.mapquest.searchControl({
+                    className: '',
+                    hoverMarker: {
+                        icon: 'marker',
+                        iconOptions: {
+                        size: 'sm',
+                        primaryColor: '#333333',
+                        secondaryColor: '#333333'
+                        }
+                    },
+                    search: {
+                        sort: 'relevance',
+                        pageSize: 20
+                    },
+                    searchInput: {
+                        searchAheadOptions: {
+                        limit: 6,
+                        collection: 'address,adminArea,airport,poi,category,franchise'
+                        },
+                        compactResults: true,
+                        placeholderText: 'Search',
+                        clearTitle: 'Clear search'
+                    },
+                    searchLayer: {
+                        buffer: 256,
+                        collisionMargin: 2,
+                        marker: {
+                        icon: 'via',
+                        iconOptions: {
+                            primaryColor: '#ffffff',
+                            secondaryColor: '#333333',
+                            size: 'lg'
+                        },
+                        popupEnabled: true
+                        },
+                        paddingTopLeft: [420, 20],
+                        paddingBottomRight: [20, 20],
+                        searchResponse: {},
+                        updateResultsOnMapMove: true
+                    }
+                }).addTo(map);
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Simple mapquest example</h1>
+        <div id="map"></div>
+    </body>
+</html>

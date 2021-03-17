@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Simple application which uses New York Times APIs</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="./style.css" rel="stylesheet">
+    </head>
+    <body>
+        <h1>New York Times article search</h1>
+        <div class='wrapper'>
+
+            <div class="controls">
+                <form>
+                    <p>
+                        <label for="search">Enter a single search term:</label>
+                        <input type="text" id="search" placeholder="cat" required>
+                    </p>
+                    <p>
+                        <label for="dateStart">Enter a start date in format YYYYMMDD:</label>
+                        <input type="date" id='dateStart' placeholeder="mm/dd/yyyy">
+                    </p>
+                    <p>
+                        <label for="dateEnd">Enter an end date in format YYYYMMDD:</label>
+                        <input type="date" id="dateEnd" placeholder="mm/dd/yyyy">
+                    </p>
+                    <p>
+                        <button type="submit">Submit</button>
+                    </p>
+                </form>
+            </div>
+            <div class="results">
+                <nav>
+                    <button class='prev'>Previous 10</button>
+                    <button class='next'>Next 10</button>
+                </nav>
+
+                <section>
+                </section>
+            </div>
+
+        </div>
+        <script>
+            // get base URL from website depending on what you are going to searching for
+            const baseUrl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json';
+            const apiKey = 'your key'; // create api key on nytimes.com website
+            let url;
+            // create elements to work with referencing DOM elements
+            const searchTerm = document.querySelector('#search');
+            const startDate = document.querySelector('#dateStart');
+            const endDate = document.querySelector('#dateEnd');
+            const searchForm = document.querySelector('form');
+
+            const nextBtn = document.querySelector('.next');
+            const prevBtn = document.querySelector('.prev');
+
+            const section = document.querySelector('section');
+            const nav = document.querySelector('nav');
+            // hide navigation bar before searching
+            nav.style.display = 'none';
+            let pageNum = 0;
+            
+            // function sets back pagenum to begin with
+            const submitSearch = req =>{
+                pageNum = 0;
+                fetchResults(req);
+            }
+            const fetchResults = res => {
+                res.preventDefault();
+                // assemble the full URL depending on form submission
+                url = baseUrl + '?api-key=' 
+                    + apiKey + '&page=' 
+                    + pageNum + '&q=' 
+                    + searchTerm.value + '&fq=document_type:("article")';
+                
+                if (startDate.value !== ''){
+                    url += '&begin_date=' + startDate.value;
+                };
+                if (endDate.value !== ''){
+                    url+='&end_date=' + endDate.value;
+                }
+                // request data and convert response to json, after format json to neat representation
+                fetch(url).then(response=>{
+                    return response.json()
+                })
+                .then(json=>{
+                    displayResults(json)
+                })
+            }
+
+            const displayResults = json =>{
+                while(section.firstChild){
+                    section.removeChild(section.firstChild);
+                }
+                // array which holds all the objects which represents articles
+                const articles = json.response.docs;
+                // show navigation bar if there more than 10 articles
+                if (articles.length === 10){
+                    nav.style.display = 'block'
+                }else{
+                    nav.style.display = 'none'
+                }
+
+                if (articles.length === 0){
+                    const parag = document.createElement('p');
+                    parag.textContent = 'No results were found';
+                    document.appendChild(parag)
+                }else{
+                    for (let i=0; i < articles.length; i++){
+                        const article = document.createElement('article');
+                        const heading = document.createElement('h3');
+                        const link = document.createElement('a');
+                        const image = document.createElement('img');
+                        const parag1 = document.createElement('p');
+                        const parag2 = document.createElement('p');
+                        const clearfix = document.createElement('div');
+
+                        let current = articles[i];
+
+                        link.href = current.web_url;
+                        link.textContent = current.headline.main;
+                        parag1.textContent = current.snippet;
+                        parag2.textContent = 'Keywords: ';
+                        for(let j=0; j < current.keywords.length; j++){
+                            const span = document.createElement('span');
+                            span.textContent += current.keywords[j].value + ' ';
+                            parag2.appendChild(span);
+                        }
+
+                        if (current.multimedia.length > 0){
+                            image.src = 'http://www.nytimes.com/'+current.multimedia[0].url;
+                            image.alt = current.headline.main;
+                        }
+
+                        clearfix.setAttribute('class', 'clearfix');
+
+                        article.appendChild(heading);
+                        heading.appendChild(link);
+                        article.appendChild(image);
+                        article.appendChild(parag1);
+                        article.appendChild(parag2);
+                        article.appendChild(clearfix);
+                        section.appendChild(article);
+                    }
+                }
+            }
+            // functions which shows pages
+            const nextPage = res => {
+                pageNum ++;
+                fetchResults(res);
+            }
+            const prevPage = res =>{
+                if (pageNum>0){
+                    pageNum--;
+                }else{
+                    return;
+                }
+                fetchResults(res);
+            }
+            
+            //call functions which shows next or previous pages on click
+            nextBtn.addEventListener('click', nextPage);
+            prevBtn.addEventListener('click', prevPage);
+            // when form will be submitted submitSearch function will be called
+            searchForm.addEventListener('submit', submitSearch);
+        </script>
+    </body>
+</html>
