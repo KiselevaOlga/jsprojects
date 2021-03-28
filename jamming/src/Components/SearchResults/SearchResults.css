@@ -1,19 +1,20 @@
 .SearchResults {
-    width: 50%;
-    height: 950px;
-    padding: .88rem 0;
-    overflow-y: scroll;
-    box-shadow: 0 4px 2px 2px #000000;
-    background-color:#000b3f;
+  width: 50%;
+  height: 950px;
+  overflow-y: scroll;
+  padding: .88rem;
+  background-color: rgba(1, 12, 63, 0.7);
+  box-shadow: 0 4px 2px 2px #000000;
 }
- @media only screen and (max-width: 1020px){
-     .SearchResults{
-         width: 90%;
-         margin-bottom: 2rem;
-     }
- }
 
- ::-webkit-scrollbar{
-     width: 0px;
-     background: transparent;
- }
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+@media only screen and (max-width: 1020px) {
+  .SearchResults {
+    width: 90%;
+    margin-bottom: 2rem;
+  }
+}
