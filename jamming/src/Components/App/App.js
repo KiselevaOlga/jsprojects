@@ -68,8 +68,8 @@ class App extends React.Component{
   //   }
   // }
   search(term){
-    Spotify.search(term).then(searchResults => {
-      this.setState({searchResults: searchResults})
+    Spotify.search(term).then(newTracks => {
+      this.setState({searchResults: newTracks})
     })
   }
 
@@ -79,8 +79,7 @@ class App extends React.Component{
         <h1>Ja<span className="highlight">mmmm</span>ing!</h1>
         <div className='App'>
         
-            <SearchBar onClick={this.search}/>
-
+            <SearchBar onSearch={this.search}/>
             <div className="App-playlist">
               <SearchResults 
                   searchResults={this.state.searchResults} 
