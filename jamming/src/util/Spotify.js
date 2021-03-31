@@ -1,5 +1,5 @@
 let accessToken ;
-const redirect_uri = 'http://localhost:3000/';
+const redirect_uri = 'https://kiselevaolga.github.io/jamjam/';
 const clientId = 'b02c4934fc3c4239adab42f5e8c4354f';
 const Spotify = {
     getAccessToken() {
