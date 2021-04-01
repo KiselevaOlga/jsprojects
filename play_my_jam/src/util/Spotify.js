@@ -1,26 +1,103 @@
 let accessToken;
 const redirect_uri = "http://localhost:3000/";
-const client_id = "6e1b1121ee214ff780b973c92bf2d58c";
+const clientId = "6e1b1121ee214ff780b973c92bf2d58c";
 
-export const Spotify={
-    getAccessToken(){
-        if(accessToken){
+const Spotify = {
+    getAccessToken() {
+        if (accessToken) {
             return accessToken;
         }
 
-        const newAccessToken =windoe.location.href.match(/access_token=([^&]*)/);
+        const newAccessToken = window.location.href.match(/access_token=([^&]*)/);
         const newExpiresIn = window.location.href.match(/expires_in=([^&]*)/);
-        if (newExpiresIn && newAccessToken){
+
+        if (newAccessToken && newExpiresIn) {
             accessToken = newAccessToken[1];
-            const timeOut = Number(newExpiresIn[1]);
-            window.setTimeout(()=> accessToken="", timeOut*1000);
+            const expiresIn = Number(newExpiresIn[1]);
+            window.setTimeout(() => accessToken = '', expiresIn * 1000);
             window.history.pushState('Access Token', null, '/');
             return accessToken;
         } else {
-            const accessURL = `https://accounts.spotify.com/
-            authorize?client_id=${client_id}&response_type=token
-            &scope=playlist-modify-public&redirect_uri=${redirect_uri}`;
-            window.location = accessURL;
+            const accessUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&show_dialog=true&redirect_uri=${redirect_uri}`;
+            window.location = accessUrl;
         }
-    }, 
-};
+    },
+
+    search(searchTerm) {
+        const accessToken = Spotify.getAccessToken();
+        const headers = {Authorization: `Bearer ${accessToken}`};
+
+        return fetch(`https://api.spotify.com/v1/search?type=track&q=${searchTerm}`, {headers: headers})
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Request failed!');
+        }, networkError => {
+            console.log(networkError.message);
+        }).then(jsonResponse => {
+        if (!jsonResponse.tracks) {
+            return [];
+        }
+        return jsonResponse.tracks.items.map(track => ({
+            id: track.id, 
+            name: track.name, 
+            artist: track.artists[0].name, 
+            album: track.album.name, 
+            uri: track.uri}));
+        });
+    },
+
+    savePlaylist(playlistName, trackURIs) {
+        if (playlistName && trackURIs.length) {
+            const accessToken = Spotify.getAccessToken();
+            const headers = {
+                Authorization: `Bearer ${accessToken}`
+        };
+        let userID;
+        let playlistID;
+        return fetch('https://api.spotify.com/v1/me', {headers: headers})
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Request failed!');
+        }, networkError => {
+            console.log(networkError.message);
+        }).then(jsonResponse => {
+            userID = jsonResponse.id;
+            return fetch(`https://api.spotify.com/v1/users/${userID}/playlists`, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({name: playlistName})
+            }).then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Request failed!');
+            }, networkError => {
+                console.log(networkError.message);
+            }).then(jsonResponse => {
+                playlistID = jsonResponse.id;
+                return fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks`, {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify({uris: trackURIs})
+                }).then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Request failed!');
+                }, networkError => {
+                    console.log(networkError.message);
+                }).then(jsonResponse => jsonResponse);
+            });
+        });
+
+        } else {
+            return;
+        }
+    }
+}
+
+export default Spotify;

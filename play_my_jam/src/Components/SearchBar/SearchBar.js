@@ -4,6 +4,7 @@ import './SearchBar.css';
 export class SearchBar extends React.Component {
     constructor(props){
         super(props);
+        this.state={term: ''}
         this.handleTermChange=this.handleTermChange.bind(this);
         this.search=this.search.bind(this);
     }
@@ -20,7 +21,7 @@ export class SearchBar extends React.Component {
             <div className="SearchBar">
         
                 <input placeholder="Enter name of Artist, song or album" onChange={this.handleTermChange}></input>
-                <button className="SearchButton">Search</button>
+                <button className="SearchButton" onClick={this.search}>Search</button>
 
             </div>
         )

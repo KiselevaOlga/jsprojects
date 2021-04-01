@@ -10,7 +10,7 @@ class App extends React.Component{
     super(props);
     this.state={
       searchResults: [],
-      playlistName: 'My play list',
+      playlistName: '',
       playlistTracks: [],
     };
     this.addTrack=this.addTrack.bind(this);
@@ -54,19 +54,7 @@ class App extends React.Component{
                   })
     });
   }
-  // savePlaylist() {
-  //   let tracks = this.state.playlistTracks;
-  //   if(tracks.length && this.state.playlistName) {
-  //     let trackURIs = tracks.map(trackIndex => trackIndex.uri);
-  //     Spotify.savePlaylist(this.state.playlistName, trackURIs).then(() => {
-  //       this.setState({
-  //         playlistName: 'New Playlist',
-  //         playlistTracks: []
-  //       });
-  //       document.getElementById('Playlist-name').value = this.state.playlistName;
-  //     });
-  //   }
-  // }
+  
   search(term){
     Spotify.search(term).then(newTracks => {
       this.setState({searchResults: newTracks})
