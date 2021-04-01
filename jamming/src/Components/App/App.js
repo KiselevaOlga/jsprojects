@@ -2,6 +2,7 @@ import './App.css';
 import {SearchBar} from '../SearchBar/SearchBar';
 import {SearchResults} from '../SearchResults/SearchResults';
 import {Playlist} from '../Playlist/Playlist';
+import {SavedPlaylists} from '../SavedPlaylists/SavedPlaylists';
 import Spotify from '../../util/Spotify.js';
 import React from 'react';
 
@@ -55,6 +56,9 @@ class App extends React.Component{
     });
   }
   
+  showLists(){
+    Spotify.showLists();
+  }
   search(term){
     Spotify.search(term).then(newTracks => {
       this.setState({searchResults: newTracks})
@@ -68,6 +72,7 @@ class App extends React.Component{
         <div className='App'>
         
             <SearchBar onSearch={this.search}/>
+            <SavedPlaylists onShow={this.showLists}/>
             <div className="App-playlist">
               <SearchResults 
                   searchResults={this.state.searchResults} 

@@ -1,5 +1,5 @@
 let accessToken ;
-const redirect_uri = 'https://kiselevaolga.github.io/jamjam/';
+const redirect_uri = 'http://localhost:3000/';
 const clientId = 'b02c4934fc3c4239adab42f5e8c4354f';
 const Spotify = {
     getAccessToken() {
@@ -89,6 +89,31 @@ const Spotify = {
         } else {
             return;
         }
+    },
+
+    showLists(){
+        const accessToken = Spotify.getAccessToken();
+        let userID; 
+        return fetch('https://api.spotify.com/v1/me', {headers: {Authorization: `Bearer ${accessToken}`}})
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Request failed!');
+        }, networkError => {
+            console.log(networkError.message);
+        }).then(jsonResponse => {
+            userID = jsonResponse.id;
+            return fetch(`https://api.spotify.com/v1/users/${userID}/playlists`, 
+            {headers: {Authorization: `Bearer ${accessToken}`}})
+            .then(response=>{
+                if(response.ok){
+                    return response.json();
+                }
+                throw new Error('Request failed!');
+            }, networkError => {console.log(networkError.message)})
+            .then(jsonResponse => jsonResponse);
+        })
     }
 }
 
