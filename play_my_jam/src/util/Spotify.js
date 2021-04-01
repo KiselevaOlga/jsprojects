@@ -1,5 +1,5 @@
 let accessToken;
-const redirect_uri = "https://kiselevaolga.github.io/play_my_jam/";
+const redirect_uri = "https://kiselevaolga.github.io/playmyjam/";
 
 const clientId = "6e1b1121ee214ff780b973c92bf2d58c";
 
