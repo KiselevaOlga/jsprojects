@@ -13,9 +13,8 @@ function App() {
   const [contacts, setContacts]=useState([
     {
       name: 'Olga',
-      phone: 98887776655,
+      phone: '98887776655',
       email: 'olga@gmail.com',
-      id: generateId()
     },
   ])
 
@@ -24,25 +23,24 @@ function App() {
      name: name,
      phone: phone,
      email: email,
-     id: generateId()
    }, ...prev])
   }
 
   const [appointments, setAppointments]=useState([
     {
       title: 'Go to salon',
-      contact: 'Link to contact',
+      contact: 'Olga',
       date: '15.12.2002',
       time: '15:30'
     }
   ])
 
-  function addAppointment(newAppointment){
+  function addAppointment(title, contact, date, time){
     setAppointments(prev=>[{
-      title: newAppointment.title,
-      contact: newAppointment.contact,
-      date: newAppointment.date,
-      time: newAppointment.time
+      title: title,
+      contact: contact,
+      date: date,
+      time: time
     }, ...prev])
   }
 
@@ -75,7 +73,7 @@ function App() {
           </Route>
           <Route path={ROUTES.APPOINTMENTS}>
             {/* Add props to AppointmentsPage */}
-            <AppointmentsPage appointments={appointments} addAppointment={addAppointment}/>
+            <AppointmentsPage appointments={appointments} addAppointment={addAppointment} contacts={contacts}/>
           </Route>
         </Switch>
       </main>
