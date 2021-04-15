@@ -21,7 +21,7 @@ export const getCurrencySymbol = (currencyFilter)=>{
     switch(currencyFilter){
         case 'USD':
             return '$';
-        case EUR: 
+        case 'EUR': 
             return '€';
         case 'CAD':
             return '$';
