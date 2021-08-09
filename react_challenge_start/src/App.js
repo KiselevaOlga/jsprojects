@@ -6,15 +6,12 @@ import { ContactsPage } from "./containers/contactsPage/ContactsPage";
 import {generateId} from "./utilities";
 
 function App() {
-  /*
-  Define state variables for 
-  contacts and appointments 
-  */
+
   const [contacts, setContacts]=useState([
     {
-      name: 'Olga',
+      name: 'Lanier',
       phone: '98887776655',
-      email: 'olga@gmail.com',
+      email: 'Lanier@gmail.com',
     },
   ])
 
@@ -29,7 +26,7 @@ function App() {
   const [appointments, setAppointments]=useState([
     {
       title: 'Go to salon',
-      contact: 'Olga',
+      contact: 'Lanier',
       date: '15.12.2002',
       time: '15:30'
     }
@@ -49,10 +46,6 @@ function App() {
     APPOINTMENTS: "/appointments",
   };
 
-  /*
-  Implement functions to add data to
-  contacts and appointments
-  */
 
 
   return (
@@ -68,11 +61,9 @@ function App() {
       <main>
         <Switch>
           <Route path={ROUTES.CONTACTS}>
-            {/* Add props to ContactsPage */}
             <ContactsPage contacts={contacts} addContact={addContact}/>
           </Route>
           <Route path={ROUTES.APPOINTMENTS}>
-            {/* Add props to AppointmentsPage */}
             <AppointmentsPage appointments={appointments} addAppointment={addAppointment} contacts={contacts}/>
           </Route>
         </Switch>
