@@ -4,10 +4,7 @@ import {TileList} from "../../components/tileList/TileList";
 
 export const AppointmentsPage = (props) => {
   const {appointments, addAppointment, contacts} = props;
-  /*
-  Define state variables for 
-  appointment info
-  */
+
   const [title, setTitle]=useState('');
   const [contact, setContact]=useState('');
   const [date, setDate]=useState('');
@@ -20,9 +17,7 @@ export const AppointmentsPage = (props) => {
     setContact('');
     setDate('');
     setTime('');
-    /*
-    Add contact info and clear data  
-    */
+ 
   };
 
   return (
