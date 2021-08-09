@@ -4,10 +4,7 @@ import {TileList} from '../../components/tileList/TileList';
 
 
 export const ContactsPage = (props) => {
-  /*
-  Define state variables for 
-  contact info and duplicate check
-  */
+
   const {contacts, addContact}=props;
   const [name, setName]=useState('');
   const [phone, setPhone] = useState('');
@@ -22,10 +19,7 @@ export const ContactsPage = (props) => {
       setPhone('');
       setEmail('');
     }
-    /*
-    Add contact info and clear data
-    if the contact name is not a duplicate
-    */
+ 
   };
 
   useEffect(()=>{
@@ -44,12 +38,6 @@ export const ContactsPage = (props) => {
       setDuplicate(false)
     }
   }, [name, contacts, duplicate])
-  /*
-  Using hooks, check for contact name in the 
-  contacts array variable in props
-  To check for duplicates, implement a call to useEffect that sets the duplicate 
-  state variable to true if the name state variable is already in the contacts list
-  */
 
   return (
     <div>
